@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0f">
+<title>Atlas Jeff's travel index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f; --bg-elev: #13131c; --bg-elev-2: #1b1b26; --bg-elev-3: #22222e;
+    --border: #24242f; --border-bright: #33333f;
+    --text: #f0f0f5; --text-dim: #9a9aa8; --text-faint: #5a5a68;
+    --accent: #ff6b1a; --accent-bright: #ff9147;
+    --accent-dim: rgba(255,107,26,0.12); --accent-border: rgba(255,107,26,0.35);
+    --success: #22c55e; --success-dim: rgba(34,197,94,0.12);
+    --warn: #f59e0b; --warn-dim: rgba(245,158,11,0.12);
+    --info: #3b82f6; --info-dim: rgba(59,130,246,0.12);
+    --quiet: #6b7280; --quiet-dim: rgba(107,114,128,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; overscroll-behavior: none; }
+  body { max-width: 440px; margin: 0 auto; padding: 0 0 60px; padding-top: env(safe-area-inset-top); position: relative; }
+  a { color: inherit; text-decoration: none; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  .hdr { padding: 22px 20px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+  .hdr-left { display: flex; align-items: center; gap: 12px; }
+  .hdr-logo { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg, var(--accent), var(--accent-bright)); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; color: #0a0a0f; box-shadow: 0 0 20px rgba(255,107,26,0.3); }
+  .hdr-title { display: flex; flex-direction: column; gap: 2px; }
+  .hdr-mark { font-size: 17px; font-weight: 800; letter-spacing: 1.8px; color: var(--accent); line-height: 1; }
+  .hdr-sub { font-size: 11px; font-weight: 500; letter-spacing: 0.5px; color: var(--text-dim); }
+  .hdr-right { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--text-faint); letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600; }
+  .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--success); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.6); } 50% { opacity: 0.5; box-shadow: 0 0 0 4px rgba(34,197,94,0); } }
+
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); padding: 24px 20px 10px; display: flex; align-items: center; gap: 8px; }
+  .section-label .count { background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; font-size: 10px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-weight: 600; letter-spacing: 0; }
+
+  .hero { margin: 14px 20px 0; background: linear-gradient(135deg, rgba(255,107,26,0.18), rgba(255,107,26,0.04)); border: 1px solid var(--accent-border); border-radius: 16px; padding: 18px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -40px; right: -40px; width: 160px; height: 160px; background: radial-gradient(circle, rgba(255,107,26,0.25), transparent 65%); pointer-events: none; }
+  .hero-label { font-size: 10px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 6px; position: relative; }
+  .hero-label::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+  .hero-name { font-size: 24px; font-weight: 800; letter-spacing: -0.01em; margin-top: 8px; line-height: 1.1; position: relative; }
+  .hero-dest { font-size: 14px; color: var(--text-dim); margin-top: 4px; position: relative; }
+  .hero-meta { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; position: relative; }
+  .chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; background: rgba(0,0,0,0.28); border: 1px solid var(--border); border-radius: 999px; font-size: 11px; font-weight: 600; color: var(--text-dim); letter-spacing: 0.3px; }
+  .chip.mono { font-family: 'JetBrains Mono', monospace; }
+  .chip strong { color: var(--text); font-weight: 700; }
+  .hero-cta { display: block; margin-top: 16px; padding: 12px; background: var(--accent); color: #0a0a0f; border-radius: 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.6px; text-align: center; text-transform: uppercase; position: relative; }
+
+  .quiet { margin: 14px 20px 0; padding: 20px 18px; background: var(--bg-elev); border: 1px dashed var(--border-bright); border-radius: 16px; text-align: center; }
+  .quiet-label { font-size: 10px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text-faint); }
+  .quiet-headline { font-size: 17px; font-weight: 700; margin-top: 8px; color: var(--text); }
+  .quiet-sub { font-size: 12px; color: var(--text-dim); margin-top: 6px; line-height: 1.5; }
+
+  .cards { display: flex; flex-direction: column; gap: 10px; padding: 0 20px; }
+  .card { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; transition: all 0.2s; }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .card-name { font-size: 16px; font-weight: 700; line-height: 1.25; }
+  .card-name a { display: inline-flex; align-items: center; gap: 4px; }
+  .card-name a::after { content: '↗'; font-size: 11px; color: var(--accent); margin-left: 2px; opacity: 0.85; font-weight: 600; }
+  .card-dest { font-size: 12px; color: var(--text-dim); margin-top: 3px; }
+  .badge { font-size: 9px; font-weight: 700; padding: 4px 8px; border-radius: 999px; letter-spacing: 0.7px; text-transform: uppercase; flex-shrink: 0; }
+  .badge.plan { background: var(--info-dim); color: var(--info); border: 1px solid rgba(59,130,246,0.25); }
+  .badge.active { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent-border); }
+  .badge.past { background: var(--quiet-dim); color: var(--quiet); border: 1px solid rgba(107,114,128,0.25); }
+  .card-meta { display: flex; gap: 8px; margin-top: 10px; align-items: center; flex-wrap: wrap; }
+  .card-dates { font-size: 11px; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; font-weight: 600; letter-spacing: 0.3px; }
+  .card-stub { font-size: 11px; color: var(--text-faint); margin-top: 8px; padding: 8px 10px; background: var(--bg); border-radius: 6px; border-left: 2px solid var(--border-bright); line-height: 1.4; }
+
+  details.past { margin: 0 20px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  details.past[open] summary { border-bottom: 1px solid var(--border); }
+  details.past summary { padding: 12px 16px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-dim); letter-spacing: 0.4px; list-style: none; display: flex; align-items: center; }
+  details.past summary::-webkit-details-marker { display: none; }
+  details.past summary::before { content: '▸'; font-size: 10px; color: var(--text-faint); margin-right: 8px; transition: transform 0.2s; display: inline-block; }
+  details.past[open] summary::before { transform: rotate(90deg); }
+  details.past summary .past-count { margin-left: auto; background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; font-size: 10px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  .past-row { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .past-row:last-child { border-bottom: none; }
+  .past-row-l { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .past-row-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .past-row-name a { display: inline-flex; align-items: center; }
+  .past-row-name a::after { content: '↗'; font-size: 10px; color: var(--accent); margin-left: 4px; opacity: 0.85; font-weight: 600; }
+  .past-row-dest { font-size: 11px; color: var(--text-dim); }
+  .past-row-r { font-size: 10px; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; font-weight: 600; flex-shrink: 0; }
+
+  .foot { padding: 36px 20px 20px; text-align: center; }
+  .foot-stamp { font-size: 10px; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.3px; }
+  .foot-tag { font-size: 11px; color: var(--text-faint); margin-top: 6px; letter-spacing: 0.4px; }
+  .foot-tag .accent { color: var(--accent); font-weight: 700; }
+</style>
+</head>
+<body>
+  <header class="hdr">
+    <div class="hdr-left">
+      <div class="hdr-logo">A</div>
+      <div class="hdr-title">
+        <div class="hdr-mark">ATLAS</div>
+        <div class="hdr-sub">Jeff's travel index</div>
+      </div>
+    </div>
+    <div class="hdr-right"><span class="pulse"></span> Live</div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-label">Active now</div>
+    <div class="hero-name">Grand Rapids</div>
+    <div class="hero-dest">Grand Rapids overnight</div>
+    <div class="hero-meta">
+      <span class="chip mono">Day <strong>1</strong>/2</span><span class="chip mono">May 4-5, 2026</span>
+    </div>
+    <div class="hero-cta" style="background:var(--bg-elev-2);color:var(--text-dim);">Dashboard not yet generated</div>
+  </div>
+  <div class="section-label">Upcoming <span class="count">3</span></div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <div class="card-name">Phoenix</div>
+          <div class="card-dest">Phoenix · Preconstruction Conference</div>
+        </div>
+        <span class="badge plan">Plan</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-dates">May 5-8, 2026</span>
+      </div>
+<div class="card-stub">Dashboard not yet generated.</div>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <div class="card-name">Frankfurt</div>
+          <div class="card-dest">Frankfurt · Metallica</div>
+        </div>
+        <span class="badge plan">Plan</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-dates">May 20-25, 2026</span>
+      </div>
+<div class="card-stub">Dashboard not yet generated.</div>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <div class="card-name">Dublin</div>
+          <div class="card-dest">Dublin, Ireland</div>
+        </div>
+        <span class="badge plan">Plan</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-dates">Dates TBD</span>
+      </div>
+<div class="card-stub">Dashboard not yet generated.</div>
+    </div>
+  </div>
+  <div class="section-label">Past <span class="count">1</span></div>
+  <details class="past">
+    <summary>Show past trips <span class="past-count">1</span></summary>
+    <div class="past-row">
+      <div class="past-row-l">
+        <div class="past-row-name"><a href="https://vector-mac.github.io/lasvegas-april-2026/">Las Vegas</a></div>
+        <div class="past-row-dest">Vegas · Google Cloud Next &#x27;26</div>
+      </div>
+      <div class="past-row-r">Apr 21-24, 2026</div>
+    </div>
+  </details>
+  <footer class="foot">
+    <div class="foot-stamp">Last rendered: May 04, 2026 23:41 CDT</div>
+    <div class="foot-tag">Auto-updated by <span class="accent">Atlas</span></div>
+  </footer>
+</body>
+</html>
+<!-- ATLAS-RENDER-OK -->
