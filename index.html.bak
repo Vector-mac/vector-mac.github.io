@@ -107,12 +107,12 @@
 
   <div class="hero">
     <div class="hero-label">Active now</div>
-    <div class="hero-name">Grand Rapids</div>
-    <div class="hero-dest">Grand Rapids overnight</div>
+    <div class="hero-name">Phoenix</div>
+    <div class="hero-dest">Phoenix · Preconstruction Conference</div>
     <div class="hero-meta">
-      <span class="chip mono">Day <strong>2</strong>/2</span><span class="chip mono">May 4-5, 2026</span>
+      <span class="chip mono">Day <strong>2</strong>/4</span><span class="chip mono">May 5-8, 2026</span>
     </div>
-    <a class="hero-cta" href="https://vector-mac.github.io/grandrapids-may-2026/">Open dashboard</a>
+    <a class="hero-cta" href="https://vector-mac.github.io/phoenix-may-2026/">Open dashboard</a>
   </div>
   <div class="section-label">Upcoming <span class="count">2</span></div>
   <div class="cards">
@@ -143,9 +143,16 @@
 <div class="card-stub">Dashboard not yet generated.</div>
     </div>
   </div>
-  <div class="section-label">Past <span class="count">1</span></div>
+  <div class="section-label">Past <span class="count">2</span></div>
   <details class="past">
-    <summary>Show past trips <span class="past-count">1</span></summary>
+    <summary>Show past trips <span class="past-count">2</span></summary>
+    <div class="past-row">
+      <div class="past-row-l">
+        <div class="past-row-name"><a href="https://vector-mac.github.io/grandrapids-may-2026/">Grand Rapids</a></div>
+        <div class="past-row-dest">Grand Rapids overnight</div>
+      </div>
+      <div class="past-row-r">May 4-5, 2026</div>
+    </div>
     <div class="past-row">
       <div class="past-row-l">
         <div class="past-row-name"><a href="https://vector-mac.github.io/lasvegas-april-2026/">Las Vegas</a></div>
@@ -155,7 +162,7 @@
     </div>
   </details>
   <footer class="foot">
-    <div class="foot-stamp">Last rendered: May 05, 2026 00:45 CDT</div>
+    <div class="foot-stamp">Last rendered: May 06, 2026 00:14 CDT</div>
     <div class="foot-tag">Auto-updated by <span class="accent">Atlas</span></div>
   </footer>
 </body>
